@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>اختيار الباقة</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Added Meta Viewport -->
+    <style>
+        /* Basic styling for the form */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            direction: rtl; /* Set text direction to right-to-left for Arabic */
+            background-image: url("images.jpeg");
+            background-repeat: no-repeat;
+            background-size: cover;
+           /* background-position: center; */ /* Ensures the image is centered */
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 90%; /* Changed from fixed width to percentage */
+            max-width: 400px; /* Ensures it doesn't exceed 400px */
+            box-sizing: border-box; /* Includes padding in width */
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+            font-size: 2em; /* Ensures readability */
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            color: #555;
+            font-size: 1em;
+        }
+        select, input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 1em;
+        }
+        button {
+            margin-top: 20px;
+            padding: 12px;
+            width: 100%;
+            background-color: #25D366; /* WhatsApp Green */
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease; /* Smooth transition */
+        }
+        button:hover {
+            background-color: #128C7E;
+        }
+        .note {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #888;
+            text-align: center;
+        }
+
+        /* Media Queries for Devices with a Width of 768px or Less */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px; /* Adds padding to prevent content from touching screen edges */
+            }
+
+            .container {
+                padding: 20px 25px; /* Reduces padding for smaller screens */
+            }
+
+            h2 {
+                font-size: 1.5em; /* Adjusts the heading size */
+            }
+
+            label, select, input, button {
+                font-size: 1em; /* Ensures text is readable on smaller devices */
+            }
+
+            .note {
+                font-size: 0.9em; /* Slightly smaller note text */
+            }
+        }
+
+        /* Media Queries for Devices with a Width of 480px or Less */
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px 20px; /* Further reduces padding */
+            }
+
+            h2 {
+                font-size: 1.2em; /* Further adjusts heading size */
+            }
+
+            button {
+                padding: 10px; /* Reduces button padding */
+                font-size: 0.9em; /* Adjusts button text size */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>اختر باقتك</h2>
+        <form id="packageForm">
+            <label for="package">اختر باقة:</label>
+            <select id="package" name="package" required>
+                <option value="">--اختر باقة--</option>
+                <option value="20GB_1000">20 جيجا إنترنت + 1000 دقيقة/رسالة - 220 جنيه</option>
+                <option value="30GB_1500">30 جيجا إنترنت + 1500 دقيقة/رسالة - 280 جنيه</option>
+                <option value="35GB_1500">35 جيجا إنترنت + 1500 دقيقة/رسالة - 335 جنيه</option>
+                <option value="40GB_1500">40 جيجا إنترنت + 1500 دقيقة/رسالة - 360 جنيه</option>
+                <option value="50GB_2000">50 جيجا إنترنت + 2000 دقيقة/رسالة - 430 جنيه</option>
+                <option value="60GB_2000">60 جيجا إنترنت + 2000 دقيقة/رسالة - 500 جنيه</option>
+                <option value="70GB_2000">70 جيجا إنترنت + 2000 دقيقة/رسالة - 600 جنيه</option>
+            </select>
+
+            <label for="mobile">أدخل رقم الموبايل الخاص بك:</label>
+            <input 
+                type="tel" 
+                id="mobile" 
+                name="mobile" 
+                pattern="[0-9]{10,15}" 
+                placeholder="مثال: 01234567890" 
+                required 
+                aria-describedby="mobileHelp">
+            <p id="mobileHelp" class="note">يرجى إدخال رقم موبايل صالح (10-15 رقم).</p>
+
+            <button type="submit">إرسال</button>
+        </form>
+        <p class="note">بإرسال النموذج، سيتم تحويلك إلى واتساب.</p>
+    </div>
+
+    <script>
+        document.getElementById('packageForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent the default form submission
+
+            const packageSelected = document.getElementById('package').value;
+            const mobileNumber = document.getElementById('mobile').value.trim();
+
+            if (!packageSelected) {
+                alert('يرجى اختيار باقة.');
+                return;
+            }
+
+            // Validate mobile number (simple validation)
+            const mobilePattern = /^[0-9]{10,15}$/;
+            if (!mobilePattern.test(mobileNumber)) {
+                alert('يرجى إدخال رقم موبايل صالح (10-15 رقم).');
+                return;
+            }
+
+            // Map package values to detailed descriptions
+            const packageDetails = {
+                "20GB_1000": "20 جيجا إنترنت + 1000 دقيقة/رسالة",
+                "30GB_1500": "30 جيجا إنترنت + 1500 دقيقة/رسالة",
+                "35GB_1500": "35 جيجا إنترنت + 1500 دقيقة/رسالة",
+                "40GB_1500": "40 جيجا إنترنت + 1500 دقيقة/رسالة",
+                "50GB_2000": "50 جيجا إنترنت + 2000 دقيقة/رسالة",
+                "60GB_2000": "60 جيجا إنترنت + 2000 دقيقة/رسالة",
+                "70GB_2000": "70 جيجا إنترنت + 2000 دقيقة/رسالة"
+            };
+
+            const selectedPackage = packageDetails[packageSelected] || "باقة غير محددة";
+
+            // Construct the message
+            const message = `باقتك المختارة: ${encodeURIComponent(selectedPackage)}%0Aرقم الموبايل: ${encodeURIComponent(mobileNumber)}`;
+
+            // Replace 'YOUR_WHATSAPP_NUMBER' with your actual WhatsApp number in international format
+            const whatsappNumber = '201200825653'; // Ensure this is in the correct format
+
+            // Construct the WhatsApp URL
+            const whatsappURL = `https://wa.me/${whatsappNumber}?text=${message}`;
+
+            // Open WhatsApp in a new tab/window
+            window.open(whatsappURL, '_blank');
+        });
+    </script>
+</body>
+</html>
